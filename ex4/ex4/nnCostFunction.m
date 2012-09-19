@@ -62,30 +62,14 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+%let's compute all the node values first
+a1 = [ones(size(X, 1), 1), X]'; % 401x5000 representing input
+size(a1)
 
-% Let's calculate the hypothesis first:
 
-X = [ones(m, 1) X]; % we better add a column of ones to multiply against theta zero, layer 1
 
-a2 = sigmoid(X * Theta1');
-a2 = [ones(m, 1) a2]; % we better we better add a column of ones to multiply against theta zero, layer 2
 
-hypothesis = sigmoid(a2 * Theta2'); % This is our final output, or hypothesis. 5000x10
 
-% We don't need this line yet:
-%[useless, hypothesis] = max(hypothesis, [], 2); % Max returuns the index of highest valued prediction. Useless contains the value of the prediction. So, now, hypothesis contains the digit represented by the inputs.
-
-% Apparently this code was already provided in predict.m. Oh well, I've written it already, so I'll just keep it. 
-
-% Now, change Y to a 5000x10 matrix, so we can find the cost by simple subtraction
-tempY = zeros(size(y, 1), num_labels);
-for i = 1:size(y, 1)
-	tempY(i, y(i)) = 1;
-end 
-
-% tempY is now a 5000x10 matrix. This seeems ripe for element-wise multiplication with hypothesis. 
-
-J = (1 / m) * sum(sum((-tempY .* log(hypothesis)) - ((1 - tempY) .* log(1 - hypothesis))));
 
 
 
