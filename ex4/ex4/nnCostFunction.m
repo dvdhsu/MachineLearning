@@ -63,8 +63,25 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 %let's compute all the node values first
-a1 = [ones(size(X, 1), 1), X]'; % 401x5000 representing input
-size(a1)
+a1 = X'; % 400 x 5000, representing input
+a1 = [ones(1, size(a1, 2)); a1]; % 401 x 5000, added the bias node
+
+z2 = Theta1 * a1; % 25 x 5000
+a2 = sigmoid(z2); % 25 x 5000
+a2 = [ones(1, size(a2, 2)); a2]; % 26 x 5000, added the bias node
+
+z3 = Theta2 * a2; % 10 x 5000
+a3 = sigmoid(z3); % 10 x 5000, representing final predictions for all 10 digits, for all 5000 training examples
+
+
+logicalY = zeros(num_labels, m); % 10 x 5000 of zeros
+
+for counter = 1:m
+	logicalY(y(counter), counter) = 1; % set which digit the training example actually corresponds to
+end
+
+J = (1 / m) * 	sum(sum((-logicalY .* log(a3)) - ((1 - logicalY) .* log(1 - a3))));
+
 
 
 
