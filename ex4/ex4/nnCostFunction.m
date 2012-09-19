@@ -80,7 +80,9 @@ for counter = 1:m
 	logicalY(y(counter), counter) = 1; % set which digit the training example actually corresponds to
 end
 
-J = (1 / m) * 	sum(sum((-logicalY .* log(a3)) - ((1 - logicalY) .* log(1 - a3))));
+regularization = (lambda / (2 * m)) * (sum(sumsq(Theta1(:, 2:end))) + sum(sumsq(Theta2(:, 2:end))));
+
+J = (1 / m) * 	sum(sum((-logicalY .* log(a3)) - ((1 - logicalY) .* log(1 - a3)))) + regularization;
 
 
 

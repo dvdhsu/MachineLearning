@@ -14,7 +14,8 @@ g = zeros(size(z));
 
 
 
-
+sigmoid = sigmoid(z); % computationally more effecient to only compute one
+g = sigmoid .* (1 - sigmoid);
 
 
 
