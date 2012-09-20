@@ -77,27 +77,42 @@ a3 = sigmoid(z3); % 10 x 5000, representing final predictions for all 10 digits,
 logicalY = zeros(num_labels, m); % 10 x 5000 of zeros
 
 for counter = 1:m
-	logicalY(y(counter), counter) = 1; % set which digit the training example actually corresponds to
+    logicalY(y(counter), counter) = 1; % set which label the training example actually corresponds to
 end
 
 regularization = (lambda / (2 * m)) * (sum(sumsq(Theta1(:, 2:end))) + sum(sumsq(Theta2(:, 2:end))));
 
-J = (1 / m) * 	sum(sum((-logicalY .* log(a3)) - ((1 - logicalY) .* log(1 - a3)))) + regularization;
+J = (1 / m) *   sum(sum((-logicalY .* log(a3)) - ((1 - logicalY) .* log(1 - a3)))) + regularization;
 
+%delta3 = a3 - logicalY; % 10 x 5000
+%delta2 = (Theta2' * delta3) .* sigmoidGradient(z2); % 26 x 5000
 
+%Delta1 = 
 
+X = [ones(size(X, 1), 1), X];
+Delta1 = Delta2 = 0;
 
+for counter = 1:m
+	a1 = X(counter, :)'; % 401 x 1
 
+	z2 = Theta1 * a1; % 25 x 1
+	a2 = sigmoid(z2); % 25 x 1 
+	a2 = [ones(1, size(a2, 2)); a2]; % 26 x 1
 
+	z3 = Theta2 * a2; % 10 x 1
+	a3 = sigmoid(z3); % 10 x 1
 
+	delta3 = a3 - logicalY(:, counter); % 10 x 1, differences between predicted and actual, for each label
 
+	delta2 = (Theta2' * delta3) .* [0 ; sigmoidGradient(z2)]; % 26 x 1
+	delta2 = delta2(2:end); % 25 x 1
 
+	Delta1 = Delta1 + delta2 * a1'; % 25 x 401
+	Delta2 = Delta2 + delta3 * a2'; % 10 x 26
+end
 
-
-
-
-
-
+Theta1_grad = Delta1 / m;
+Theta2_grad = Delta2 / m;
 
 
 % -------------------------------------------------------------
