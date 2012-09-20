@@ -92,24 +92,18 @@ J = (1 / m) *   sum(sum((-logicalY .* log(a3)) - ((1 - logicalY) .* log(1 - a3))
 X = [ones(size(X, 1), 1), X];
 Delta1 = Delta2 = 0;
 
+delta3 = a3 - logicalY; % 10 x 5000, differences between predicted and actual, for each label
+delta2 = (Theta2' * delta3) .* ([zeros(1, size(z2, 2)) ; sigmoidGradient(z2)]); % 26 x 5000
+delta2 = delta2(2:end, :); % 25 x 5000
+
+
 for counter = 1:m
-	a1 = X(counter, :)'; % 401 x 1
-
-	z2 = Theta1 * a1; % 25 x 1
-	a2 = sigmoid(z2); % 25 x 1 
-	a2 = [ones(1, size(a2, 2)); a2]; % 26 x 1
-
-	z3 = Theta2 * a2; % 10 x 1
-	a3 = sigmoid(z3); % 10 x 1
-
-	delta3 = a3 - logicalY(:, counter); % 10 x 1, differences between predicted and actual, for each label
-
-	delta2 = (Theta2' * delta3) .* [0 ; sigmoidGradient(z2)]; % 26 x 1
-	delta2 = delta2(2:end); % 25 x 1
-
-	Delta1 = Delta1 + delta2 * a1'; % 25 x 401
-	Delta2 = Delta2 + delta3 * a2'; % 10 x 26
+	Delta1 = Delta1 + delta2(:, counter) * a1(:, counter)'; % 25 x 401
+	Delta2 = Delta2 + delta3(:, counter) * a2(:, counter)'; % 10 x 26
 end
+
+size(delta2)
+
 
 Theta1_grad = Delta1 / m; 
 Theta2_grad = Delta2 / m;
