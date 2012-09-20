@@ -84,11 +84,6 @@ regularization = (lambda / (2 * m)) * (sum(sumsq(Theta1(:, 2:end))) + sum(sumsq(
 
 J = (1 / m) *   sum(sum((-logicalY .* log(a3)) - ((1 - logicalY) .* log(1 - a3)))) + regularization;
 
-%delta3 = a3 - logicalY; % 10 x 5000
-%delta2 = (Theta2' * delta3) .* sigmoidGradient(z2); % 26 x 5000
-
-%Delta1 = 
-
 X = [ones(size(X, 1), 1), X];
 Delta1 = Delta2 = 0;
 
@@ -96,14 +91,8 @@ delta3 = a3 - logicalY; % 10 x 5000, differences between predicted and actual, f
 delta2 = (Theta2' * delta3) .* ([zeros(1, size(z2, 2)) ; sigmoidGradient(z2)]); % 26 x 5000
 delta2 = delta2(2:end, :); % 25 x 5000
 
-
-for counter = 1:m
-	Delta1 = Delta1 + delta2(:, counter) * a1(:, counter)'; % 25 x 401
-	Delta2 = Delta2 + delta3(:, counter) * a2(:, counter)'; % 10 x 26
-end
-
-size(delta2)
-
+Delta1 = delta2 * a1';
+Delta2 = delta3 * a2';	
 
 Theta1_grad = Delta1 / m; 
 Theta2_grad = Delta2 / m;
