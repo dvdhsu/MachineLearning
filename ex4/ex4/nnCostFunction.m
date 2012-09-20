@@ -94,8 +94,17 @@ delta2 = delta2(2:end, :); % 25 x 5000
 Delta1 = delta2 * a1';
 Delta2 = delta3 * a2';	
 
-Theta1_grad = Delta1 / m; 
-Theta2_grad = Delta2 / m;
+tempTheta1 = Theta1;
+tempTheta2 = Theta2;
+
+tempTheta1(:, 1) = zeros(size(Theta1, 1), 1);
+tempTheta2(:, 1) = zeros(size(Theta2, 1), 1);
+
+delta1Regularization = (lambda / m) * tempTheta1;
+delta2Regularizaiton = (lambda / m) * tempTheta2;
+
+Theta1_grad = Delta1 / m + delta1Regularization;
+Theta2_grad = Delta2 / m + delta2Regularizaiton;
 
 
 % -------------------------------------------------------------
