@@ -111,7 +111,7 @@ for counter = 1:m
 	Delta2 = Delta2 + delta3 * a2'; % 10 x 26
 end
 
-Theta1_grad = Delta1 / m;
+Theta1_grad = Delta1 / m; 
 Theta2_grad = Delta2 / m;
 
 
