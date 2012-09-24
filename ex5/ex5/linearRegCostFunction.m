@@ -21,8 +21,12 @@ grad = zeros(size(theta));
 hypothesis = X * theta;
 
 J = (1 / (2 * m)) * sumsq(hypothesis - y) + (lambda / (2 * m)) * sumsq(theta(2:end));
+
 grad(1) = (1 / m) * sum(hypothesis - y);
-grad(2:end) = (1 / m) * sum((hypothesis - y) .* X(:, 2:end)) + (lambda / m) * theta(2:end);
+for index = 2:size(theta)
+	grad(index) = (((1 / m) * sum((hypothesis - y) .* X(:, index))) + ((lambda / m) * theta(index)));
+end
+% grad(2:end) = (1 / m) * sum((hypothesis - y) .* X(:, 2:end)) + (lambda / m) * theta(2:end);
 
 
 
