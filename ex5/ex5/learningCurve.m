@@ -54,10 +54,15 @@ error_val   = zeros(m, 1);
 % ---------------------- Sample Solution ----------------------
 
 
+for j = 1:m
+	subsetX = X(1:j, :); % i x numFeatures
+	subsetY = y(1:j); % i x 1
 
-
-
-
+	theta = trainLinearReg(subsetX, subsetY, lambda);
+	
+	error_train(j) = linearRegCostFunction(subsetX, subsetY, theta, 0);
+	error_val(j) = linearRegCostFunction(Xval, yval, theta, 0);
+end
 
 % -------------------------------------------------------------
 
