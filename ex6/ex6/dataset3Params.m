@@ -23,7 +23,25 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+possibleValues = [.001, .03, .1, .3, 1, 3, 10, 30];
+length = length(possibleValues);
 
+errors = zeros(length, length);
+
+for i = 1:length
+	for j = 1:length
+		model = svmTrain(X, y, possibleValues(i), @(x1, x2) gaussianKernel(x1, x2, sigma));
+		predictions = svmPredict(model, Xval);
+		errors(i, j) = mean(double(predictions ~= yval));
+	end
+end
+
+[maxRow, maxRowPosition] = max(errors);
+[maxCol, maxColPosition] = max(maxRow);
+i = maxRowPosition(maxColPosition);
+j = maxColPosition;
+C = possibleValues(i);
+sigma = possibleValues(j);
 
 
 
