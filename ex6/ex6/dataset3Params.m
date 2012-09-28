@@ -30,18 +30,20 @@ errors = zeros(length, length);
 
 for i = 1:length
 	for j = 1:length
-		model = svmTrain(X, y, possibleValues(i), @(x1, x2) gaussianKernel(x1, x2, sigma));
+		model = svmTrain(X, y, possibleValues(i), @(x1, x2) gaussianKernel(x1, x2, possibleValues(j)));
 		predictions = svmPredict(model, Xval);
 		errors(i, j) = mean(double(predictions ~= yval));
 	end
 end
 
-[maxRow, maxRowPosition] = max(errors);
-[maxCol, maxColPosition] = max(maxRow);
-i = maxRowPosition(maxColPosition);
-j = maxColPosition;
-C = possibleValues(i);
-sigma = possibleValues(j);
+errors
+
+[minRow, minRowPosition] = min(errors);
+[minCol, minColPosition] = min(minRow);
+i = minRowPosition(minColPosition);
+j = minColPosition;
+C = possibleValues(i)
+sigma = possibleValues(j)
 
 
 
