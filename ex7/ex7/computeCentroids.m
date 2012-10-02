@@ -26,6 +26,16 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+for i = 1:K % for all centroids
+	acc = count = 0; 
+	for j = 1:m % for all training examples
+		if (idx(j) == i) % if the training example belongs to the given centroid
+			acc += X(j, :); % we accumulate the training example
+			count++; % and increment the count
+		end
+	end
+	centroids(i, :) = (1 / count) * (acc); % now, this centroid is set to the new values
+end
 
 
 
