@@ -1,0 +1,4 @@
+## Machine Learning
+
+These are the assignments for Andrew Ng's Machine Learning class, which started 10 August 2012 on Coursera. They are complete, and according to the online grader, correct. 
+
